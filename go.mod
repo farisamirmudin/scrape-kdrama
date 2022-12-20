@@ -1,4 +1,4 @@
-module github.com/farisamirmudin
+module github.com/farisamirmudin/gowatch
 
 go 1.19
 

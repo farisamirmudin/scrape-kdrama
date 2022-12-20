@@ -9,7 +9,7 @@ import (
 
 func Play(title string, refr string, videoLink string) {
 	color.Magenta("Playing...")
-	cmd := exec.Command("iina", videoLink, "--no-stdin", "--keep-running", "--mpv-referrer="+refr, "--mpv-force-media-title="+title)
+	cmd := exec.Command("vlc", "--meta-title", title, "--meta-url", refr, videoLink)
 	err := cmd.Start()
 	if err != nil {
 		panic(err)
