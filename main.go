@@ -1,10 +1,10 @@
 package main
 
 import (
-	"os"
+	"html/template"
 
 	"github.com/farisamirmudin/gowatch/lib"
-	"github.com/fatih/color"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -16,13 +16,26 @@ func main() {
 		panic("Error loading .env file")
 	}
 
-	keyword := lib.Search()
-	searchLink, _ := lib.GetLink(os.Getenv("SEARCH_URL")+keyword, nil)
-	chosenLink, title := lib.GetLink(os.Getenv("BASE_URL")+searchLink, &keyword)
-	embedded := lib.GetEmbeddedLink(os.Getenv("BASE_URL") + chosenLink)
-	videoLink := lib.GetM3u8Link(embedded)
-	color.Red(title)
-	color.Cyan(embedded)
-	color.Blue(videoLink)
-	lib.Play(title, embedded, videoLink)
+	router := gin.Default()
+	router.GET("/", func(ctx *gin.Context) {
+		indexTemplate := template.Must(template.ParseFiles("views/index.html"))
+		indexTemplate.Execute(ctx.Writer, nil)
+	})
+	router.GET("/search", func(ctx *gin.Context) {
+		films := lib.GetFilm(ctx.Query("keyword"))
+		resultsTemplate := template.Must(template.ParseFiles("views/results.html"))
+		resultsTemplate.Execute(ctx.Writer, films)
+	})
+	router.GET("/episodes", func(ctx *gin.Context) {
+		episodes := lib.GetFilmEpisodes(ctx.Query("path"))
+		episodesTemplate, _ := template.New("episodes.html").Funcs(template.FuncMap{"ExtractTitle": lib.ExtractTitle}).ParseFiles("views/episodes.html")
+		episodesTemplate.Execute(ctx.Writer, episodes)
+	})
+	router.GET("/servers", func(ctx *gin.Context) {
+		player := lib.GetFilmServers(ctx.Query("path"))
+		playerTemplate := template.Must(template.ParseFiles("views/player.html"))
+		playerTemplate.Execute(ctx.Writer, player)
+	})
+
+	router.Run("localhost:8080")
 }

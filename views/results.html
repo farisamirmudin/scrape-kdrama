@@ -1,0 +1,8 @@
+<ul class="list-group list-group-flush">
+    {{ range . }}
+    <li class="list-group-item" style='cursor: pointer' hx-get="/episodes?path={{ .Path }}" hx-target="#results"
+        hx-trigger="click">
+        {{ .Title }}
+    </li>
+    {{ end }}
+</ul>
