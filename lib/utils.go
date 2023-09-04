@@ -34,7 +34,7 @@ func GetFilm(keyword string) []Film {
 	if keyword == "" {
 		return []Film{}
 	}
-	resp, err := http.Get(os.Getenv("SEARCH_URL") + keyword)
+	resp, err := http.Get(os.Getenv("BASE_URL") + "/search.html?keyword=" + keyword)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -113,7 +113,7 @@ func GetEmbeddedLink(link string) string {
 }
 
 func GetFilmServers(path string) string {
-	ajaxURL := os.Getenv("AJAX_URL")
+	ajaxURL := os.Getenv("BASE_URL") + "/encrypt-ajax.php"
 	searchLink := GetEmbeddedLink(os.Getenv("BASE_URL") + path)
 
 	// Extract the ID from the URL
