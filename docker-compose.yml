@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  web:
+    container_name: gowatch
+    build: .
+    command: /app/main
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - 80:8080
