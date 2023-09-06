@@ -5,8 +5,11 @@ services:
     container_name: gowatch
     build: .
     command: /app/main
+    environment:
+      - PORT=80
+      - GIN_MODE=release
     env_file:
       - .env
     restart: unless-stopped
     ports:
-      - 80:8080
+      - 80:80
