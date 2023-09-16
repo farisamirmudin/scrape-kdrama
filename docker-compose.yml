@@ -7,6 +7,5 @@ services:
     command: /app/main
     env_file:
       - .env
-    restart: unless-stopped
     ports:
       - 80:80
