@@ -2,9 +2,8 @@ version: "3"
 
 services:
   web:
-    container_name: gowatch
     build: .
-    command: /app/main
+    container_name: gowatch
     env_file:
       - .env
     ports:

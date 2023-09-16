@@ -5,17 +5,9 @@ import (
 
 	"github.com/farisamirmudin/gowatch/lib"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-
-	// Load the .env file
-	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file")
-	}
-
 	router := gin.Default()
 	router.GET("/", func(ctx *gin.Context) {
 		indexTemplate := template.Must(template.ParseFiles("views/index.html"))
