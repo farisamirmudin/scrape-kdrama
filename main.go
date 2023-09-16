@@ -5,15 +5,16 @@ import (
 
 	"github.com/farisamirmudin/gowatch/lib"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 
 	// Load the .env file
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	panic("Error loading .env file")
-	// }
+	err := godotenv.Load()
+	if err != nil {
+		panic("Error loading .env file")
+	}
 
 	router := gin.Default()
 	router.GET("/", func(ctx *gin.Context) {
@@ -27,7 +28,7 @@ func main() {
 	})
 	router.GET("/episodes", func(ctx *gin.Context) {
 		episodes := lib.GetFilmEpisodes(ctx.Query("path"))
-		episodesTemplate, _ := template.New("episodes.html").Funcs(template.FuncMap{"ExtractTitle": lib.ExtractTitle}).ParseFiles("views/episodes.html")
+		episodesTemplate, _ := template.New("episodes.html").Funcs(template.FuncMap{"ExtractTitleAndEpisode": lib.ExtractTitleAndEpisode}).ParseFiles("views/episodes.html")
 		episodesTemplate.Execute(ctx.Writer, episodes)
 	})
 	router.GET("/servers", func(ctx *gin.Context) {

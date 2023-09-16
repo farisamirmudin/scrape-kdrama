@@ -3,6 +3,7 @@ package lib
 import (
 	"bytes"
 	"encoding/json"
+	"html"
 
 	"io"
 	"log"
@@ -20,9 +21,8 @@ type Film struct {
 	Path  string
 }
 
-func ExtractTitle(input string) []string {
-	re := regexp.MustCompile(`(.+) Episode (.+)`)
-	matches := re.FindStringSubmatch(input)
+func ExtractTitleAndEpisode(input string) []string {
+	matches := regexp.MustCompile(`(.+) Episode (.+)`).FindStringSubmatch(input)
 	if len(matches) < 2 {
 		return []string{}
 	}
@@ -56,7 +56,7 @@ func GetFilm(keyword string) []Film {
 		title, _ := s.Find(".name").Html()
 		href, _ := s.Find("a").Attr("href")
 
-		results = append(results, Film{Title: title, Path: href})
+		results = append(results, Film{Title: html.UnescapeString(title), Path: href})
 	})
 
 	return results
@@ -85,7 +85,7 @@ func GetFilmEpisodes(path string) []Film {
 		title, _ := s.Find(".name").Html()
 		href, _ := s.Find("a").Attr("href")
 
-		results = append(results, Film{Title: title, Path: href})
+		results = append(results, Film{Title: html.UnescapeString(title), Path: href})
 	})
 
 	return results
@@ -103,8 +103,7 @@ func GetEmbeddedLink(link string) string {
 		log.Fatal(err)
 	}
 
-	re := regexp.MustCompile(`<iframe src="(.+?)".*`)
-	matches := re.FindStringSubmatch(string(body))
+	matches := regexp.MustCompile(`<iframe src="(.+?)".*`).FindStringSubmatch(string(body))
 	if len(matches) < 2 {
 		log.Fatal("Link not found")
 	}
@@ -117,8 +116,7 @@ func GetFilmServers(path string) string {
 	searchLink := GetEmbeddedLink(os.Getenv("BASE_URL") + path)
 
 	// Extract the ID from the URL
-	re := regexp.MustCompile(`id=(.+?)&`)
-	match := re.FindStringSubmatch(searchLink)[1]
+	match := regexp.MustCompile(`id=(.+?)&`).FindStringSubmatch(searchLink)[1]
 	id := []byte(match)
 
 	// Pad the id
@@ -163,8 +161,7 @@ func GetFilmServers(path string) string {
 	decodedData := Decrypt(data.Data)
 
 	// Get the m3u8 link
-	re = regexp.MustCompile(`(https.+?.m3u8)`)
-	links := re.FindAllString(string(decodedData), -1)
+	links := regexp.MustCompile(`(https.+?.m3u8)`).FindAllString(string(decodedData), -1)
 
 	parsedLink, _ := url.Parse(links[0])
 
