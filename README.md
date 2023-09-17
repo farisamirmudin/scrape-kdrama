@@ -1,1 +1,1 @@
-## Watch Kdrama in Terminal
+## M3U8 scraper (GO + HTMX)

@@ -1,5 +1,7 @@
-.env
 **/.DS_Store
+.env
+.git
+.gitignore
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
