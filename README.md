@@ -1,1 +1,1 @@
-## Watch Kdrama in Terminal
+## Go Watch
