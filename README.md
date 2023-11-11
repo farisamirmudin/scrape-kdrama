@@ -1,1 +1,1 @@
-## M3U8 scraper (GO + HTMX)
+## Go Watch Web (GO + HTMX)
