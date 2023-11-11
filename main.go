@@ -5,10 +5,12 @@ import (
 
 	"github.com/farisamirmudin/gowatch/lib"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	router := gin.Default()
+	godotenv.Load()
 	router.GET("/", func(ctx *gin.Context) {
 		indexTemplate := template.Must(template.ParseFiles("views/index.html"))
 		indexTemplate.Execute(ctx.Writer, nil)

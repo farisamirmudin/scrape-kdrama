@@ -125,12 +125,12 @@ func GetFilmServers(path string) string {
 	padtext := bytes.Repeat([]byte{byte(padding)}, padding)
 	id = append(id, padtext...)
 
-	// Encrypt and Encode the ID
-	encodedID := Encrypt(id)
+	// Encrypt the ID
+	encryptedID := Encrypt(id)
 
-	// Send an HTTP request with the encoded ID
+	// Send an HTTP request with the encrypted ID
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", ajaxURL+"?id="+encodedID, nil)
+	req, err := http.NewRequest("POST", ajaxURL+"?id="+encryptedID, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -145,6 +145,7 @@ func GetFilmServers(path string) string {
 
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -152,16 +153,17 @@ func GetFilmServers(path string) string {
 		Data string `json:"data"`
 	}
 	var data Data
+
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Decode and Decrypt the response
-	decodedData := Decrypt(data.Data)
+	// Decrypt the response
+	decryptedData := Decrypt(data.Data)
 
 	// Get the m3u8 link
-	links := regexp.MustCompile(`(https.+?.m3u8)`).FindAllString(string(decodedData), -1)
+	links := regexp.MustCompile(`(https.+?.m3u8)`).FindAllString(string(decryptedData), -1)
 
 	parsedLink, _ := url.Parse(links[0])
 
