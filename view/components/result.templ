@@ -1,0 +1,20 @@
+package components
+
+import "github.com/farisamirmudin/gowatch/model"
+import "fmt"
+
+templ Result(films []model.Film) {
+  <ul class="list-group list-group-flush">
+    for _, film := range films {
+    <li
+      class="list-group-item"
+      style='cursor: pointer'
+      hx-get={ string(templ.URL(fmt.Sprintf("/episodes?path=%s", film.Path)))}
+      hx-target="#results"
+      hx-trigger="click"
+    >
+        { film.Title }
+    </li>
+  }
+  </ul>
+}

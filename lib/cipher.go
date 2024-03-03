@@ -4,6 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/base64"
+	"log"
 	"os"
 )
 
@@ -15,7 +16,7 @@ func Encrypt(plaintext []byte) string {
 	iv = os.Getenv("IV")
 	block, err := aes.NewCipher([]byte(secretKey))
 	if err != nil {
-		panic(err)
+		log.Print(err)
 	}
 	mode := cipher.NewCBCEncrypter(block, []byte(iv))
 	encrypted := make([]byte, len(plaintext))
@@ -28,13 +29,13 @@ func Decrypt(plaintext string) []byte {
 	// Decode the data field
 	decoded, err := base64.StdEncoding.DecodeString(plaintext)
 	if err != nil {
-		panic(err)
+		log.Print(err)
 	}
 
 	// Decrypt the response
 	block, err := aes.NewCipher([]byte(secretKey))
 	if err != nil {
-		panic(err)
+		log.Print(err)
 	}
 	mode := cipher.NewCBCDecrypter(block, []byte(iv))
 	decrypted := make([]byte, len(decoded))

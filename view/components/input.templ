@@ -1,0 +1,13 @@
+package components
+
+templ Input() {
+  <input
+    type="text"
+    class="form-control"
+    name="keyword"
+    hx-get="/search"
+    hx-trigger="keyup changed delay:500ms"
+    hx-target="#results"
+    placeholder="Search..."
+  />
+}

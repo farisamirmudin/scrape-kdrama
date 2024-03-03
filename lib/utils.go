@@ -14,12 +14,8 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/farisamirmudin/gowatch/model"
 )
-
-type Film struct {
-	Title string
-	Path  string
-}
 
 func ExtractTitleAndEpisode(input string) []string {
 	matches := regexp.MustCompile(`(.+) Episode (.+)`).FindStringSubmatch(input)
@@ -30,62 +26,62 @@ func ExtractTitleAndEpisode(input string) []string {
 	return []string{strings.TrimSpace(matches[1]), strings.TrimSpace(matches[2])}
 }
 
-func GetFilm(keyword string) []Film {
+func GetFilm(keyword string) []model.Film {
 	if keyword == "" {
-		return []Film{}
+		return []model.Film{}
 	}
 	resp, err := http.Get(os.Getenv("BASE_URL") + "/search.html?keyword=" + keyword)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	// Create a goquery document from the HTML
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(string(body)))
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
-	var results []Film
+	var results []model.Film
 
 	doc.Find("li.video-block").Each(func(i int, s *goquery.Selection) {
 		title, _ := s.Find(".name").Html()
 		href, _ := s.Find("a").Attr("href")
 
-		results = append(results, Film{Title: html.UnescapeString(title), Path: href})
+		results = append(results, model.Film{Title: html.UnescapeString(title), Path: href})
 	})
 
 	return results
 }
 
-func GetFilmEpisodes(path string) []Film {
+func GetFilmEpisodes(path string) []model.Film {
 	resp, err := http.Get(os.Getenv("BASE_URL") + path)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	// Create a goquery document from the HTML
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(string(body)))
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
-	var results []Film
+	var results []model.Film
 
 	doc.Find("ul.listing.items.lists li").Each(func(i int, s *goquery.Selection) {
 		title, _ := s.Find(".name").Html()
 		href, _ := s.Find("a").Attr("href")
 
-		results = append(results, Film{Title: html.UnescapeString(title), Path: href})
+		results = append(results, model.Film{Title: html.UnescapeString(title), Path: href})
 	})
 
 	return results
@@ -94,18 +90,18 @@ func GetFilmEpisodes(path string) []Film {
 func GetEmbeddedLink(link string) string {
 	resp, err := http.Get(link)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	matches := regexp.MustCompile(`<iframe src="(.+?)".*`).FindStringSubmatch(string(body))
 	if len(matches) < 2 {
-		log.Fatal("Link not found")
+		log.Print("Link not found")
 	}
 
 	return "https:" + matches[1]
@@ -132,14 +128,14 @@ func GetFilmServers(path string) string {
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", ajaxURL+"?id="+encryptedID, nil)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	req.Header.Set("X-Requested-With", "XMLHttpRequest")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	defer resp.Body.Close()
 
@@ -147,7 +143,7 @@ func GetFilmServers(path string) string {
 	body, err := io.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	type Data struct {
 		Data string `json:"data"`
@@ -156,7 +152,7 @@ func GetFilmServers(path string) string {
 
 	err = json.Unmarshal(body, &data)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	// Decrypt the response

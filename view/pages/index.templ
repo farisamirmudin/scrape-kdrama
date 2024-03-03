@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Go Watch</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-      crossorigin="anonymous"
-    />
-  </head>
+package pages
 
-  <body class="container py-4">
+import "github.com/farisamirmudin/gowatch/view/layout"
+import "github.com/farisamirmudin/gowatch/view/components"
+
+templ Index() {
+  @layout.Base() {
     <h1 class="display-1">Go Watch</h1>
     <div class="gap-4 d-flex flex-column">
-      <input
-        type="text"
-        class="form-control"
-        name="keyword"
-        hx-get="/search"
-        hx-trigger="keyup changed delay:500ms"
-        hx-target="#results"
-        placeholder="Search..."
-      />
+      @components.Input()
       <div id="results"></div>
       <div id="player"></div>
       <video id="video" autoplay></video>
@@ -82,5 +65,5 @@
       });
       window.hls = hls;
     </script>
-  </body>
-</html>
+  }
+}
