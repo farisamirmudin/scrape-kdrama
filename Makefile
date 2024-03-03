@@ -2,7 +2,7 @@ dev:
 	@templ generate
 	@go run main.go
 
-build:
+start:
 	@templ generate
 	@go build -o build/app .
 	@./build/app
