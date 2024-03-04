@@ -11,7 +11,6 @@ import "io"
 import "bytes"
 
 import "github.com/farisamirmudin/gowatch/model"
-import "github.com/farisamirmudin/gowatch/lib"
 
 func EpisodeSelector(films []model.Film) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -31,9 +30,9 @@ func EpisodeSelector(films []model.Film) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(lib.ExtractTitleAndEpisode(films[0].Title)[0])
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(model.ExtractTitleAndEpisode(films[0].Title)[0])
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/components/episode-selector.templ`, Line: 7, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/components/episode-selector.templ`, Line: 6, Col: 58}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -57,9 +56,9 @@ func EpisodeSelector(films []model.Film) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(lib.ExtractTitleAndEpisode(film.Title)[1])
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(model.ExtractTitleAndEpisode(film.Title)[1])
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/components/episode-selector.templ`, Line: 19, Col: 53}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/components/episode-selector.templ`, Line: 18, Col: 55}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {

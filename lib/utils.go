@@ -17,15 +17,6 @@ import (
 	"github.com/farisamirmudin/gowatch/model"
 )
 
-func ExtractTitleAndEpisode(input string) []string {
-	matches := regexp.MustCompile(`(.+) Episode (.+)`).FindStringSubmatch(input)
-	if len(matches) < 2 {
-		return []string{}
-	}
-
-	return []string{strings.TrimSpace(matches[1]), strings.TrimSpace(matches[2])}
-}
-
 func GetFilm(keyword string) []model.Film {
 	if keyword == "" {
 		return []model.Film{}

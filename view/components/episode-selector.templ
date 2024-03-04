@@ -1,11 +1,10 @@
 package components
 
 import "github.com/farisamirmudin/gowatch/model"
-import "github.com/farisamirmudin/gowatch/lib"
 
 templ EpisodeSelector(films []model.Film) {
   <div class="d-flex align-items-center gap-3 px-2">
-    <div>{ lib.ExtractTitleAndEpisode(films[0].Title)[0] }</div>
+    <div>{ model.ExtractTitleAndEpisode(films[0].Title)[0] }</div>
     <select
       class="form-select w-25"
       name="path"
@@ -17,7 +16,7 @@ templ EpisodeSelector(films []model.Film) {
       <option>Choose an episode</option>
       for _, film := range films {
         <option value={ film.Path }>
-          { lib.ExtractTitleAndEpisode(film.Title)[1] }
+          { model.ExtractTitleAndEpisode(film.Title)[1] }
         </option>
       }
     </select>
