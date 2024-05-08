@@ -40,7 +40,7 @@ func Index() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"results\"></div><div id=\"player\"></div><video id=\"video\" autoplay></video></div><script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm\" crossorigin=\"anonymous\"></script> <script src=\"https://unpkg.com/htmx.org@1.9.4\"></script> <script src=\"https://cdn.jsdelivr.net/npm/hls.js@1\"></script> <script src=\"https://cdn.plyr.io/3.7.8/plyr.polyfilled.js\"></script> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"results\"></div><div id=\"player\"></div><video id=\"video\" autoplay></video></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
